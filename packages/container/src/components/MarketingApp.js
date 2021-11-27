@@ -7,13 +7,15 @@ export default () => {
   const history = useHistory();
 
   useEffect(() => {
-    mount(ref.current, {
+    const { onParentNavigate } = mount(ref.current, {
       // update container's history when subapp changes it's route
       onNavigate: ({ pathname: nextPathname }) => {
         const { pathname } = history.location;
         if (pathname !== nextPathname) history.push(nextPathname);
       },
     });
+
+    history.listen(onParentNavigate);
   }, []);
 
   return <div ref={ref}></div>;

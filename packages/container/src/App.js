@@ -5,8 +5,8 @@ import {
   createGenerateClassName,
 } from "@material-ui/core/styles";
 
-import AuthApp from "";
 import Header from "./components/Header";
+import ProgressBar from "./components/Progress";
 
 const MarketingApp = React.lazy(() => import("./components/MarketingApp"));
 const AuthApp = React.lazy(() => import("./components/AuthApp"));
@@ -21,7 +21,7 @@ export default () => {
       <StylesProvider generateClassName={generateClassName}>
         <div>
           <Header />
-          <React.Suspense fallback={<div>Loading....</div>}>
+          <React.Suspense fallback={<ProgressBar />}>
             <Switch>
               <Route path='/auth' component={AuthApp} />
               <Route path='/' component={MarketingApp} />

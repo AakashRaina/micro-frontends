@@ -10,6 +10,7 @@ import ProgressBar from "./components/Progress";
 
 const MarketingApp = React.lazy(() => import("./components/MarketingApp"));
 const AuthApp = React.lazy(() => import("./components/AuthApp"));
+const DashboardApp = React.lazy(() => import("./components/DashboardApp"));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "co",
@@ -31,6 +32,7 @@ export default () => {
               <Route path='/auth'>
                 <AuthApp onSignIn={() => setisSignedIn(true)} />
               </Route>
+              <Route path='/dashboard' component={DashboardApp} />
               <Route path='/' component={MarketingApp} />
             </Switch>
           </React.Suspense>

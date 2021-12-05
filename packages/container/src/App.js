@@ -1,9 +1,10 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import {
   StylesProvider,
   createGenerateClassName,
 } from "@material-ui/core/styles";
+import { createBrowserHistory } from "history";
 
 import Header from "./components/Header";
 import ProgressBar from "./components/Progress";
@@ -16,11 +17,19 @@ const generateClassName = createGenerateClassName({
   productionPrefix: "co",
 });
 
+const history = createBrowserHistory();
+
 export default () => {
   const [isSignedIn, setisSignedIn] = useState(false);
 
+  useEffect(() => {
+    if (isSignedIn) {
+      history.push("/dashboard");
+    }
+  }, [isSignedIn]);
+
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <StylesProvider generateClassName={generateClassName}>
         <div>
           <Header
@@ -32,12 +41,15 @@ export default () => {
               <Route path='/auth'>
                 <AuthApp onSignIn={() => setisSignedIn(true)} />
               </Route>
-              <Route path='/dashboard' component={DashboardApp} />
+              <Route path='/dashboard'>
+                {!isSignedIn && <Redirect to='/' />}
+                <DashboardApp />
+              </Route>
               <Route path='/' component={MarketingApp} />
             </Switch>
           </React.Suspense>
         </div>
       </StylesProvider>
-    </BrowserRouter>
+    </Router>
   );
 };
